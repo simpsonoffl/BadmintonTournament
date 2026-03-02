@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Corporate Badminton League</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+
+</head>
+<body>
+
+<header class="mainHeader">
+
+    <div class="headerLeft">
+        <img src="logo-left.png" class="logo">
+    </div>
+
+    <div class="headerCenter">
+        CITI Badminton Tournament
+
+        <select id="teamSelect">
+            <option value="">Select Team</option>
+            <option>Blue Stars</option>
+            <option>Smash Masters</option>
+            <option>Storm Breakers</option>
+            <option>Shuttle Smashers</option>
+            <option>Chennai CITI Gangsters</option>
+        </select>
+    </div>
+
+    <div class="headerRight">
+        <img src="header_right.png" class="logo">
+    </div>
+
+</header>
+
+
+<!-- RULES VIEW (DEFAULT) -->
+<div id="rulesContainer">
+    <iframe src="rules.html" class="rulesFrame"></iframe>
+</div>
+
+
+<!-- APP VIEW (HIDDEN INITIALLY) -->
+<div id="appContainer" style="display:none;">
+
+    <div class="mainLayout">
+
+        <div class="tableSection">
+            <table>
+                <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Men's Doubles</th>
+                    <th>Mixed Doubles</th>
+                    <th>Women's Doubles</th>
+                </tr>
+                </thead>
+                <tbody id="scheduleBody"></tbody>
+            </table>
+
+            <button onclick="exportExcel()">Download Excel</button>
+        </div>
+
+        <div class="dashboardSection">
+            <h3>Player Usage Dashboard</h3>
+            <div id="usageDashboard"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="teams.js"></script>
+<script src="fixtures.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

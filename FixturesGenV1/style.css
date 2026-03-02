@@ -1,0 +1,490 @@
+/* =====================================================
+   GLOBAL THEME
+===================================================== */
+
+body{
+    background:#0b1117;
+    color:#e6edf3;
+    font-family:"Segoe UI",system-ui,-apple-system;
+    margin:0;
+    padding:18px 24px;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:22px;
+    margin-bottom:14px;
+    font-weight:600;
+}
+
+/* =====================================================
+   DROPDOWNS (GLOBAL)
+===================================================== */
+
+select{
+    background:#0f1621;
+    color:#e6edf3;
+    border:1px solid #2b3440;
+    padding:3px 8px;
+    border-radius:6px;
+    height:26px;
+    font-size:12px;
+    outline:none;
+    transition:.15s;
+}
+
+select:hover{
+    border-color:#ff8c00;
+}
+
+select:focus{
+    border-color:#ff8c00;
+    box-shadow:0 0 0 1px rgba(255,140,0,.3);
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#11161d;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th{
+    color:#ff8c00;
+    padding:10px;
+    font-size:14px;
+    border-bottom:1px solid #2b3440;
+    text-align:left;
+}
+
+td{
+    padding:6px 10px;
+    vertical-align:middle;
+    border-bottom:1px solid #1a212b;
+}
+
+/* compact rows */
+tr{
+    height:38px;
+}
+
+/* =====================================================
+   CATEGORY CELL (MATCH BOX)
+===================================================== */
+
+.categoryBox{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:3px 6px;
+    min-height:30px;
+}
+
+/* opponent label */
+.opponent{
+    color:#ff8c00;
+    font-size:12px;
+    min-width:135px;
+    white-space:nowrap;
+}
+
+/* inline selects */
+.categoryBox select{
+    min-width:110px;
+}
+
+/* knockout highlight */
+.categoryBox.knockout{
+    border:1px solid rgba(255,140,0,.35);
+    border-radius:6px;
+    padding:4px 6px;
+}
+
+/* knockout badge */
+.stageBadge{
+    margin-left:6px;
+    font-size:10px;
+    background:#ff8c00;
+    color:#000;
+    padding:2px 5px;
+    border-radius:4px;
+    font-weight:700;
+}
+
+/* =====================================================
+   BREAK CELL (NOW SAME HEIGHT AS MATCH)
+===================================================== */
+
+.breakCell{
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:2px;
+
+    color:#ff8c00;
+    text-transform:uppercase;
+
+    border:1px dashed rgba(255,140,0,0.35);
+    border-radius:6px;
+
+    background:rgba(255,140,0,0.05);
+}
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+button{
+    margin-top:14px;
+    background:#ff8c00;
+    border:none;
+    padding:8px 16px;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    transition:.15s;
+}
+
+button:hover{
+    background:#ffa733;
+}
+
+/* =====================================================
+   PAIR MATRIX
+===================================================== */
+
+.pairMatrixContainer{
+    margin-top:28px;
+    background:#11161d;
+    padding:18px;
+    border-radius:10px;
+}
+
+.matrixTable{
+    border-collapse:collapse;
+    width:auto;
+}
+
+.matrixTable td,
+.matrixTable th{
+    border:1px solid #2b3440;
+    padding:6px 10px;
+    font-size:12px;
+}
+
+.matrix-empty{
+    background:#1b222b;
+}
+
+.matrix-used{
+    background:#2e7d32;
+}
+
+.matrix-repeat{
+    background:#ef6c00;
+}
+
+/* =====================================================
+   SCROLL OPTIMIZATION (BIG WIN)
+===================================================== */
+
+/* prevents table from stretching vertically */
+tbody{
+    line-height:1.2;
+}
+
+/* tighter spacing between rows */
+.categoryBox + .categoryBox{
+    margin-top:2px;
+}
+
+/* ================= VALIDATOR ================= */
+
+.validatorPanel{
+    margin-top:20px;
+    padding:14px;
+    background:#11161d;
+    border-radius:8px;
+    border:1px solid #2b3440;
+    font-size:13px;
+}
+
+.validatorError{
+    color:#ff6b6b;
+    margin-bottom:6px;
+}
+
+.validatorOk{
+    color:#4caf50;
+}
+
+select.violation{
+    border:1px solid #ff4d4d !important;
+    box-shadow:0 0 6px rgba(255,0,0,.5);
+}
+
+/* ===============================
+   PLAYER DASHBOARD
+=================================*/
+
+.usageContainer{
+    margin-top:20px;
+    background:#11161d;
+    padding:18px;
+    border-radius:10px;
+}
+
+#usageDashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:10px;
+}
+
+.playerCard{
+    background:#0b1117;
+    border:1px solid #2b3440;
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:13px;
+}
+
+.playerName{
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+.usageRow{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+}
+
+.status-ok{ color:#4caf50; }
+.status-warn{ color:#ff9800; }
+.status-bad{ color:#ff5252; }
+
+/* ===============================
+   PAGE LAYOUT
+=================================*/
+
+.mainLayout{
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+}
+
+/* LEFT SIDE */
+.tableSection{
+    flex:4;
+    min-width:0;
+}
+
+/* RIGHT SIDE */
+.dashboardSection{
+    flex:1;
+    background:#11161d;
+    padding:16px;
+    border-radius:10px;
+    position:sticky;
+    top:20px;
+    height:fit-content;
+}
+
+/* ===============================
+   DASHBOARD LIST STYLE
+=================================*/
+
+#usageDashboard{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:10px;
+}
+
+.playerRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:8px 10px;
+    border-radius:6px;
+
+    background:#0b1117;
+    border:1px solid #2b3440;
+
+    font-size:13px;
+}
+
+.playerName{
+    font-weight:600;
+    width:90px;
+}
+
+.usageStats{
+    display:flex;
+    gap:12px;
+    font-size:12px;
+}
+
+.status-ok{ color:#4caf50; }
+.status-warn{ color:#ff9800; }
+.status-bad{ color:#ff5252; }
+
+/* =====================================================
+   HEADER LAYOUT
+===================================================== */
+
+.appHeader{
+    display:grid;
+    grid-template-columns: auto 1fr auto;
+    align-items:center;
+
+    background:#0f1720;
+    border-bottom:1px solid #1f2a36;
+
+    padding:12px 20px;
+    margin-bottom:18px;
+}
+
+/* left + right containers */
+.headerLeft,
+.headerRight{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+/* center title */
+.headerCenter{
+    text-align:center;
+}
+
+.headerCenter h1{
+    margin:0;
+    font-size:22px;
+    font-weight:600;
+    color:#e6edf3;
+    letter-spacing:0.5px;
+}
+
+/* logos */
+.headerLogo{
+    height:42px;
+    width:auto;
+    object-fit:contain;
+}
+
+/* team dropdown */
+.headerRight select{
+    background:#11161d;
+    color:#fff;
+    border:1px solid #2b3440;
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:14px;
+}
+
+/* hide elements */
+.hidden{
+    display:none;
+}
+
+/* header layout */
+.appHeader{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    align-items:center;
+    padding:14px 20px;
+    border-bottom:1px solid #1f2a36;
+}
+
+.headerTitle{
+    text-align:center;
+    margin:0;
+    font-size:22px;
+}
+
+.headerRight{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.headerLogo{
+    height:40px;
+}
+
+/* RULES PAGE */
+.rulesContainer{
+    max-width:900px;
+    margin:40px auto;
+    background:#11161d;
+    padding:30px;
+    border-radius:10px;
+    line-height:1.7;
+}
+
+.rulesContainer h1,
+.rulesContainer h2{
+    color:#ff8c00;
+}
+
+.rulesFrame{
+    width:100%;
+    height:75vh;
+    border:none;
+    background:white;
+}
+
+.mainHeader{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 20px;
+    background:#11161d;
+    border-bottom:1px solid #222;
+    font-size:22px;
+    font-weight:600;
+}
+
+.headerCenter{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    height:40px;
+}
+
+.headerCenter select{
+    height:34px;
+    font-size:14px;
+}
+
+.rulesFrame{
+    width:100%;
+    height:85vh;
+    border:none;
+}
+
+#rulesContainer{
+    margin-top:10px;
+}

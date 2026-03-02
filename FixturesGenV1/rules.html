@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CITI Badminton Tournament</title>
+
+<style>
+
+body{
+    font-family:Segoe UI, Arial;
+    background:#0b1117;
+    color:#e6edf3;
+    padding:40px;
+    line-height:1.6;
+    max-width:900px;
+    margin:auto;
+}
+
+h1{ color:#ff8c00; }
+
+.subtle{ color:#9da7b3; }
+
+.quote{
+    color:#9da7b3;
+    font-style:italic;
+    margin-bottom:30px;
+}
+
+/* Accordion */
+
+.accordion{
+    background:#11161d;
+    border-radius:10px;
+    margin-bottom:15px;
+    border:1px solid #1f2630;
+    overflow:hidden;
+}
+
+.accordion-header{
+    padding:18px;
+    cursor:pointer;
+    font-weight:600;
+    color:#ffb347;
+}
+
+.accordion-header:hover{
+    background:#161c24;
+}
+
+.accordion-content{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+    padding:0 18px;
+}
+
+.accordion.active .accordion-content{
+    max-height:900px;
+    padding:18px;
+}
+
+ul{ margin-left:20px; }
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+td,th{
+    border:1px solid #2a3440;
+    padding:8px;
+    text-align:center;
+}
+
+th{ background:#161c24; }
+
+</style>
+</head>
+
+<body>
+
+<h1>🏸 CITI Badminton Tournament</h1>
+
+<p class="subtle">
+Welcome to the CITI Badminton League.
+Please review the rules before fixtures begin.
+</p>
+
+<p class="quote">
+"Serve, Smile, Socialize. Repeat."
+</p>
+
+
+<!-- TEAMS -->
+<div class="accordion">
+<div class="accordion-header">👥 Teams & Players</div>
+<div class="accordion-content">
+<ul>
+<li>5 Teams participate.</li>
+<li>Each team has <b>8/7 players</b> (5/4 Men + 3 Women).</li>
+
+</ul>
+</div>
+</div>
+
+
+<!-- FORMAT -->
+<div class="accordion">
+<div class="accordion-header">🔄 Tournament Format</div>
+<div class="accordion-content">
+<ul>
+<li>Categories: MD, WD, XD.</li>
+<li>MD & XD → play every team twice.</li>
+<li>WD → play every team once.</li>
+<li>Top 3 teams per category qualify for knockouts.</li>
+<li>A team may qualify in one category even if not qualified in others.</li>
+</ul>
+
+<b>Knockout Flow</b>
+<ul>
+<li>Qualifier: 1st vs 2nd → Winner to Final</li>
+<li>Eliminator: 3rd vs Qualifier Loser</li>
+<li>Final: Qualifier Winner vs Eliminator Winner</li>
+</ul>
+</div>
+</div>
+
+
+<!-- PAIR SUBMISSION -->
+<div class="accordion">
+<div class="accordion-header">📋 Pair Submission</div>
+<div class="accordion-content">
+<ul>
+<li>Fixtures shared by <b>02 March 2026</b>.</li>
+<li>Pairings must be submitted by <b>06 March 2026 – 6 PM</b>.</li>
+<li>Submitted pairs cannot be changed.</li>
+</ul>
+</div>
+</div>
+
+
+<!-- MEN -->
+<div class="accordion">
+<div class="accordion-header">👨 Men's Doubles Rules</div>
+<div class="accordion-content">
+<ul>
+<li>5 Men → all players must partner each other (10 unique pairs).</li>
+<li>Only ONE pair may repeat once in the tournament.</li>
+<li>If 4 men → each pair max 2 matches.</li>
+<li>Same pair cannot play two knockout matches.</li>
+</ul>
+</div>
+</div>
+
+
+<!-- MIXED -->
+<div class="accordion">
+<div class="accordion-header">👫 Mixed Doubles Rules</div>
+<div class="accordion-content">
+<ul>
+<li>With 5 men:
+    <ul>
+        <li>4 men → max 2 matches each</li>
+        <li>1 man → may play 3 matches</li>
+    </ul>
+</li>
+<li>Women → max 4 XD matches.</li>
+<li>All pairings must be unique.</li>
+</ul>
+</div>
+</div>
+
+
+<!-- WOMEN -->
+<div class="accordion">
+<div class="accordion-header">👩 Women's Doubles Rules</div>
+<div class="accordion-content">
+<ul>
+<li>Each unique pair max 3 matches together.</li>
+<li>Same pair cannot appear in multiple knockout matches.</li>
+</ul>
+</div>
+</div>
+
+
+<!-- SCORING -->
+<div class="accordion">
+<div class="accordion-header">🧮 Scoring System</div>
+<div class="accordion-content">
+
+<b>League Stage</b>
+<ul>
+<li>Single set → 21 points.</li>
+<li>Win = 2 points | Loss = 0 points.</li>
+<li>Tie breaker → highest score difference.</li>
+</ul>
+
+<b>Knockouts</b>
+<ul>
+<li>Best of 3 sets.</li>
+<li>Each set played to 15 points.</li>
+
+
+
+</ul>
+
+</div>
+</div>
+
+
+<!-- KNOCKOUT POINTS -->
+<div class="accordion">
+<div class="accordion-header">⭐ Knockout Bonus Points</div>
+<div class="accordion-content">
+
+<p>Knockout points are added to league points for overall standings.</p>
+
+<table>
+<tr>
+<th>Match</th>
+<th>Winner</th>
+<th>Loser</th>
+</tr>
+<tr>
+<td>Qualifier</td>
+<td>5 Points</td>
+<td>2 Points</td>
+</tr>
+<tr>
+<td>Eliminator</td>
+<td>2 Points</td>
+<td>1 Point</td>
+</tr>
+<tr>
+<td>Final</td>
+<td>10 Points</td>
+<td>5 Points</td>
+</tr>
+</table>
+
+</div>
+</div>
+
+
+<!-- CHAMPION -->
+<div class="accordion">
+<div class="accordion-header">🏆 Overall Champion Criteria</div>
+<div class="accordion-content">
+<ul>
+<li>Team must win at least one Final to be eligible.</li>
+<li>Highest number of Final wins → Champion.</li>
+<li>If tied → Highest total points (League + Knockout).</li>
+<li>Next eligible team becomes Runner-Up.</li>
+</ul>
+</div>
+</div>
+
+
+<!-- GENERAL -->
+<div class="accordion">
+<div class="accordion-header">⏱ General Rules</div>
+<div class="accordion-content">
+<ul>
+<li>Players cannot play two categories in the same knockout round.</li>
+<li>Match delay beyond 10 minutes may result in walkover.</li>
+<li>Non-marking shoes recommended (barefoot allowed).</li>
+<li>Organizer decisions are final and binding.</li>
+</ul>
+</div>
+</div>
+
+
+<script>
+document.querySelectorAll(".accordion-header")
+.forEach(header=>{
+    header.addEventListener("click",()=>{
+        header.parentElement.classList.toggle("active");
+    });
+});
+</script>
+
+</body>
+</html>
