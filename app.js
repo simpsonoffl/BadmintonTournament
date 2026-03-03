@@ -12,6 +12,7 @@ let playerCategoryUsage={MD:{},XD:{},WD:{}};
 let koRoundUsage={};
 
 let stageMap={};
+let RULES = null;
 
 const teamSelect=document.getElementById("teamSelect");
 const scheduleBody=document.getElementById("scheduleBody");
@@ -33,28 +34,11 @@ teamSelect.addEventListener("change", e => {
     appContainer.style.display="block";
 
     resetState();
+    RULES = getTeamRuleSet();
     renderSchedule();
 });
 
-teamSelect.addEventListener("change", e=>{
 
-    selectedTeam = e.target.value;
-
-    if(!selectedTeam){
-        rulesView.classList.remove("hidden");
-        appView.classList.add("hidden");
-        matrixSection.classList.add("hidden");
-        return;
-    }
-
-    // SHOW APP
-    rulesView.classList.add("hidden");
-    appView.classList.remove("hidden");
-    matrixSection.classList.remove("hidden");
-
-    resetState();
-    renderSchedule();
-});
 
 function resetState(){
     pairUsage={MD:{},XD:{},WD:{}};
@@ -127,7 +111,7 @@ function renderSchedule(){
     });
 
     attachDropdowns();
-    attachDropdowns();
+    
 renderUsageDashboard();
 }
 
@@ -169,7 +153,7 @@ function attachDropdowns(){
 }
 
 function populateSelect(select){
-
+if(!RULES) return;
     const type = select.dataset.type;
     const pos  = select.dataset.pos;
     const time = select.dataset.time;
@@ -217,54 +201,53 @@ function populateSelect(select){
         // WOMEN RULE
         // =================================================
         if(type==="WD" && key){
-            if(used >= 3) return;
-        }
+    if(used >= RULES.WD.pairMax) return;
+}
 
         // =================================================
         // MEN MD RULE
         // =================================================
-        if(type==="MD"){
+       if(type==="MD"){
 
-            const mdCount =
-                playerCategoryUsage.MD[p.name] || 0;
+    const mdCount =
+        playerCategoryUsage.MD[p.name] || 0;
 
-            const playersWith5 =
-                Object.values(playerCategoryUsage.MD)
-                .filter(v=>v>=5).length;
-
-            if(mdCount >= 5) return;
-
-            if(mdCount >=4 && playersWith5>=1)
-                return;
-        }
+    if(mdCount >= RULES.MD.playerMax)
+        return;
+}
 
         // =================================================
         // XD MALE RULE
         // =================================================
-        if(type==="XD" && p.gender==="M"){
+       if(type==="XD" && p.gender==="M"){
 
-            const xdCount =
-                playerCategoryUsage.XD[p.name] || 0;
+    const xdCount =
+        playerCategoryUsage.XD[p.name] || 0;
 
-            const malesWith3 =
-                Object.entries(playerCategoryUsage.XD)
-                .filter(([name,c])=>
-                    c>=3 &&
-                    TEAMS[selectedTeam]
-                        .find(x=>x.name===name)?.gender==="M"
-                ).length;
+    const malesAtMax =
+        Object.entries(playerCategoryUsage.XD)
+        .filter(([name,c]) =>
+            c >= RULES.XD.maleMax &&
+            TEAMS[selectedTeam]
+              .find(x=>x.name===name)?.gender==="M"
+        ).length;
 
-            if(xdCount>=3) return;
+    if(xdCount >= RULES.XD.maleMax)
+        return;
 
-            if(xdCount>=2 && malesWith3>=1)
-                return;
-        }
+    if(
+        xdCount >= RULES.XD.otherMaleMax &&
+        malesAtMax >= RULES.XD.maleRepeatLimit
+    ) return;
+}
 
         // women XD max 4
         if(type==="XD" && p.gender==="W"){
-            if((playerCategoryUsage.XD[p.name]||0)>=4)
-                return;
-        }
+    if(
+        (playerCategoryUsage.XD[p.name]||0)
+        >= RULES.XD.femaleMax
+    ) return;
+}
 
         // =================================================
         // PAIR RULES
@@ -272,17 +255,34 @@ function populateSelect(select){
         if(key){
 
             if(stage==="Knockout"){
-                if(used>=1) return;
-            }
+
+    const koUsed =
+        koPairUsage[type][key] || 0;
+
+    if(koUsed >= 1) return;
+}
             else{
 
-                if(type==="MD"){
-                    if(used>=2) return;
-                    if(used===1 && repeatedMDPairs()>=1)
-                        return;
-                }
+               if(type==="MD"){
 
-                if(type==="XD" && used>=1) return;
+    if(used >= RULES.MD.pairMax)
+        return;
+
+    if(
+        RULES.MD.onlyOneRepeat &&
+        used===1 &&
+        repeatedMDPairs()>=1
+    ) return;
+}
+
+                if(type==="XD"){
+
+    if(stage==="Knockout"){
+        if((koPairUsage.XD[key]||0) >= 1) return;
+    }else{
+        if((pairUsage.XD[key]||0) >= 1) return;
+    }
+}
             }
         }
 
@@ -337,7 +337,8 @@ function rebuildState(){
             if(!p) return;
 
             timeUsage[time]??=[];
-            timeUsage[time].push(p);
+            if(!timeUsage[time].includes(p))
+    timeUsage[time].push(p);
 
             playerCategoryUsage[type][p] =
                 (playerCategoryUsage[type][p]||0)+1;
@@ -385,8 +386,8 @@ function validateTournament(){
     malePlayers.forEach(p=>{
         const mdCount = playerCategoryUsage.MD[p] || 0;
 
-        if(mdCount>5)
-            errors.push(`${p} exceeds MD limit (max 5)`);
+        if(mdCount > RULES.MD.playerMax)
+            errors.push(`${p} exceeds MD limit`);
     });
 
     // ----------------------------------
@@ -399,25 +400,28 @@ function validateTournament(){
 
     if(repeatedPairs.length>1)
         errors.push("Only ONE Men's pair may repeat twice.");
+// ----------------------------------
+// XD MALE LIMITS
+// ----------------------------------
 
-    // ----------------------------------
-    // XD MALE LIMITS
-    // ----------------------------------
+const maxXD = RULES.XD.maleMax;
+let malesAtMax = 0;
 
-    let malesWith3=0;
+malePlayers.forEach(p=>{
 
-    malePlayers.forEach(p=>{
+    const xdCount = playerCategoryUsage.XD[p] || 0;
 
-        const xdCount = playerCategoryUsage.XD[p] || 0;
+    if(xdCount > maxXD)
+        errors.push(`${p} exceeds XD max (${maxXD})`);
 
-        if(xdCount>3)
-            errors.push(`${p} exceeds XD max (3)`);
+    if(xdCount === maxXD)
+        malesAtMax++;
+});
 
-        if(xdCount===3) malesWith3++;
-    });
-
-    if(malesWith3>1)
-        errors.push("Only ONE male player may play 3 XD matches.");
+if(malesAtMax > RULES.XD.maleRepeatLimit)
+    errors.push(
+        `Only ${RULES.XD.maleRepeatLimit} male(s) may reach ${maxXD} XD matches.`
+    );
 
     // ----------------------------------
     // WD PAIR LIMIT (<=3 TOTAL)
@@ -502,10 +506,14 @@ function renderUsageDashboard(){
             playerCategoryUsage.WD[player.name] || 0;
 
         const mdLimit =
-            player.gender==="M" ? 5 : "-";
+    player.gender==="M"
+        ? RULES.MD.playerMax
+        : "-";
 
         const xdLimit =
-            player.gender==="M" ? 3 : 4;
+    player.gender==="M"
+        ? RULES.XD.maleMax
+        : RULES.XD.femaleMax;
 
         const wdLimit =
             player.gender==="W" ? 3 : "-";
@@ -513,21 +521,34 @@ function renderUsageDashboard(){
         let statusClass="status-ok";
         let label="OK";
 
-        if(
-            (player.gender==="M" && (md>=4 || xd>=2)) ||
-            (player.gender==="W" && (wd>=2 || xd>=3))
-        ){
-            statusClass="status-warn";
-            label="NEAR";
-        }
+        const mdWarn = RULES.MD.playerMax - 1;
+const mdFull = RULES.MD.playerMax;
 
-        if(
-            (player.gender==="M" && (md>=5 || xd>=3)) ||
-            (player.gender==="W" && (wd>=3 || xd>=4))
-        ){
-            statusClass="status-bad";
-            label="FULL";
-        }
+const xdWarn =
+    player.gender==="M"
+        ? RULES.XD.maleMax - 1
+        : RULES.XD.femaleMax - 1;
+
+const xdFull =
+    player.gender==="M"
+        ? RULES.XD.maleMax
+        : RULES.XD.femaleMax;
+
+       if(
+    (player.gender==="M" && (md>=mdWarn || xd>=xdWarn)) ||
+    (player.gender==="W" && (wd>=2 || xd>=xdWarn))
+){
+    statusClass="status-warn";
+    label="NEAR";
+}
+
+if(
+    (player.gender==="M" && (md>=mdFull || xd>=xdFull)) ||
+    (player.gender==="W" && (wd>=RULES.WD.pairMax || xd>=xdFull))
+){
+    statusClass="status-bad";
+    label="FULL";
+}
 
         const row=document.createElement("div");
         row.className="playerRow";
@@ -646,4 +667,67 @@ function exportExcel(){
         `${selectedTeam || "Tournament"}_Fixtures.xlsx`;
 
     XLSX.writeFile(wb,fileName);
+}
+
+
+function getTeamRuleSet(){
+
+    const team = TEAMS[selectedTeam?.trim()];
+
+if(!team){
+    console.error("Team not found:", selectedTeam);
+    return null;
+}
+
+const menCount = team.filter(p=>p.gender==="M").length;
+
+    // ===============================
+    // 5 MEN TEAM
+    // ===============================
+    if(menCount === 5){
+        return {
+
+            MD:{
+                pairMax:2,
+                onlyOneRepeat:true,
+                playerMax:5   
+            },
+
+            XD:{
+                maleMax:3,
+                maleRepeatLimit:1,
+                otherMaleMax:2,
+                femaleMax:4,
+                uniquePair:true
+            },
+
+            WD:{
+                pairMax:3
+            }
+        };
+    }
+
+    // ===============================
+    // 4 MEN TEAM (Smash Masters)
+    // ===============================
+    return {
+
+        MD:{
+            pairMax:2,
+            onlyOneRepeat:false,
+            playerMax:6
+        },
+
+        XD:{
+            maleMax:3,
+            maleRepeatLimit:4,
+            otherMaleMax:3,
+            femaleMax:4,
+            uniquePair:true
+        },
+
+        WD:{
+            pairMax:3
+        }
+    };
 }
